@@ -33,7 +33,7 @@ import scala.sys.process
 class HTTPErrorCodeProcessorTest extends SpecificationWithJUnit with Mockito with MockitoFunctions {
 
   def fixture = new {
-    val body = "{\"headers\":{\"errorCode\":200},\"price\":{"\"provider\":\"A\",\"shortName\":\"B\",\"longName\":\"BBB\",\"date\":1374706800000,\"price\":11.11}}"
+    val body = "{\"headers\":{\"errorCode\":200},\"price\":{\"provider\":\"A\",\"shortName\":\"B\",\"longName\":\"BBB\",\"date\":1374706800000,\"price\":11.11}}"
 
     @Mock var outMessage:Message = _
     @Mock var inMessage:Message = _
