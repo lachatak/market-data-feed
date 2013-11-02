@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean class="org.kaloz.cucumber.camel.test.util.RunnableRepository"/>
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="order" value="0"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="properties">
+            <props>
+                <prop key="broker.url">vm://localhost?broker.persistent=false</prop>
+                <prop key="broker.userName"></prop>
+                <prop key="broker.password"></prop>
+                <prop key="yahoo.url">http://localhost:9090/d/quotes.csv?s=%s&amp;f=snd1l1yr</prop>
+                <prop key="yahoo.log.trace">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="yahooStub" class="org.kaloz.datafeed.yahoo.integration.test.stub.YahooStub"/>
+
+    <camelContext id="yahooMockContext" xmlns="http://camel.apache.org/schema/spring">
+        <route id="yahooMock">
+            <from uri="jetty://http://localhost:9090/d/quotes.csv"/>
+            <bean ref="yahooStub" method="consumeData"/>
+        </route>
+    </camelContext>
+
+</beans>

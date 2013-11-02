@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <!-- enable Spring @Component -->
+    <context:component-scan base-package="org.kaloz.datafeed.processor,
+                                          org.kaloz.messaging"/>
+
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>configuration.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <util:properties id="instrumentProviderQueues">
+        <prop key="yahoo">${yahoo.in.queue}</prop>
+    </util:properties>
+
+    <bean id="myPool" class="java.util.concurrent.Executors" factory-method="newCachedThreadPool"/>
+
+    <bean id="processorRoute" class="org.kaloz.datafeed.processor.infrastructure.integration.ProcessorRouteBuilder"/>
+
+    <camelContext id="processorContext" xmlns="http://camel.apache.org/schema/spring">
+        <routeBuilder ref="processorRoute"/>
+    </camelContext>
+
+</beans>

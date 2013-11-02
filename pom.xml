@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~ Copyright 2013 Krisztian Lachata
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~ http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.kaloz</groupId>
+
+    <artifactId>market-data-feed</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Market data feed</name>
+
+    <developers>
+        <developer>
+            <id>kaloz</id>
+            <name>Krisztian Lachata</name>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:ssh://git@bitbucket.org/lachatak/market-data-feed.git</connection>
+        <developerConnection>scm:ssh://git@bitbucket.org/lachatak/market-data-feed.git</developerConnection>
+        <url>ssh://git@bitbucket.org/lachatak/market-data-feed.git</url>
+    </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <camel.version>2.10.4</camel.version>
+        <spring.version>3.2.3.RELEASE</spring.version>
+        <activemq.version>5.7.0</activemq.version>
+        <cucumber.version>1.1.1</cucumber.version>
+        <junit.version>4.10</junit.version>
+
+        <scala-version>2.10.2</scala-version>
+        <scala-plugin-version>2.15.2</scala-plugin-version>
+    </properties>
+
+    <modules>
+        <module>feed-api</module>
+        <module>cucumber-camel</module>
+        <module>yahoo-feed</module>
+        <module>market-data-processor</module>
+        <module>messaging</module>
+        <module>market-data-processor-rest</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>14.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.5</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>0.12.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.4.1</version>
+                    <configuration>
+                        <filesets>
+                            <fileset>
+                                <directory>activemq-data</directory>
+                            </fileset>
+                        </filesets>
+                    </configuration>
+                </plugin>
+
+                <!--<plugin>-->
+                    <!--<groupId>org.codehaus.mojo</groupId>-->
+                    <!--<artifactId>build-helper-maven-plugin</artifactId>-->
+                    <!--<version>1.7</version>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<phase>generate-sources</phase>-->
+                            <!--<goals>-->
+                                <!--<goal>add-source</goal>-->
+                            <!--</goals>-->
+                            <!--<configuration>-->
+                                <!--<sources>-->
+                                    <!--<source>src/main/java</source>-->
+                                    <!--<source>src/main/scala</source>-->
+                                    <!--<source>src/test/java</source>-->
+                                    <!--<source>src/test/scala</source>-->
+                                    <!--<source>src/integration/java</source>-->
+                                    <!--<source>src/integration/scala</source>-->
+                                <!--</sources>-->
+                            <!--</configuration>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
+
+                <!-- scala compiler -->
+                <plugin>
+                    <groupId>org.scala-tools</groupId>
+                    <artifactId>maven-scala-plugin</artifactId>
+                    <version>${scala-plugin-version}</version>
+                    <executions>
+                        <execution>
+                            <id>scala-compile-first</id>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>scala-test-compile</id>
+                            <phase>process-test-resources</phase>
+                            <goals>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.tindalos.principle</groupId>-->
+                <!--<artifactId>principle</artifactId>-->
+                <!--<version>0.1-SNAPSHOT</version>-->
+                <!--<configuration>-->
+                    <!--<basePackage>org.kaloz</basePackage>-->
+                    <!--<layers>-->
+                        <!--<param>infrastructure</param>-->
+                        <!--<param>app</param>-->
+                        <!--<param>domain</param>-->
+                    <!--</layers>-->
+                    <!--<thresholdLayerViolations>0</thresholdLayerViolations>-->
+                    <!--<thresholdADPViolations>10</thresholdADPViolations>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>compile</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>designcheck</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    </build>
+</project>
