@@ -32,12 +32,9 @@ package org.kaloz.datafeed.yahoo.infrastructure.acl;
 import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
-import org.kaloz.datafeed.processor.api.instrument.InstrumentPriceCommandMessage;
 import org.kaloz.datafeed.processor.api.instrument.InstrumentPriceLoadCommandMessage;
-import org.kaloz.datafeed.yahoo.infrastructure.integration.dataformat.YahooCSV;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;

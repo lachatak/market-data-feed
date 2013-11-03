@@ -28,7 +28,6 @@ import org.restlet.data.{MediaType, Status}
 import org.specs2.mutable.SpecificationWithJUnit
 import org.specs2.mock.Mockito
 import org.specs2.mock.mockito.MockitoFunctions
-import scala.sys.process
 
 class HTTPErrorCodeProcessorTest extends SpecificationWithJUnit with Mockito with MockitoFunctions {
 

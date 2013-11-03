@@ -15,14 +15,8 @@ package org.kaloz.datafeed.yahoo.infrastructure.acl;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kaloz.datafeed.processor.api.instrument.InstrumentPriceCommandMessage;
-import org.kaloz.datafeed.yahoo.infrastructure.acl.YahooCSVConverter;
 import org.kaloz.datafeed.yahoo.infrastructure.integration.dataformat.YahooCSV;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.text.SimpleDateFormat;

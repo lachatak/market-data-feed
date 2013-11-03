@@ -18,8 +18,6 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.kaloz.messaging.app.client.JsonResponseMessage;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
 @Component
 public class InstrumentPriceResponseMessage extends JsonResponseMessage {
 
