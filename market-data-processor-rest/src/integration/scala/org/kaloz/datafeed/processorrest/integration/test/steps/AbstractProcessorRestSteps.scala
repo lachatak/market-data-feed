@@ -75,9 +75,12 @@ class AbstractProcessorRestSteps extends AbstractCucumberCamelTestSupport {
         from(inQueue).routeId("processorStub")
           .process(new Processor {
           def process(exchange: Exchange){
-              val response = processorStub.response(exchange.getIn.getBody(classOf[String]))
-              exchange.getIn.setBody(response._1)
-              exchange.getIn.setHeader(JmsMessagingConsts.MESSAGE_TYPE, response._2)
+              processorStub.response(exchange.getIn.getBody(classOf[String])) match {
+                case (response, jmsType) =>{
+                  exchange.getIn.setBody(response)
+                  exchange.getIn.setHeader(JmsMessagingConsts.MESSAGE_TYPE, jmsType)
+                }
+              }
             }
         })
 

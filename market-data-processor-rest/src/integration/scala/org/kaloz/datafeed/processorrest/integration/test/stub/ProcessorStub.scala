@@ -14,20 +14,19 @@
 
 package org.kaloz.datafeed.processorrest.integration.test.stub
 
-import scala.collection.mutable
 
 class ProcessorStub {
 
-  val requestResponses = mutable.HashMap.empty[String, (String, String)]
+  var requestResponses = Map.empty[String, (String, String)]
 
-  def registerProcessorResponses(request:String, response:(String, String)) {
-    requestResponses(request) = response
+  def registerProcessorResponses(request: String, response: (String, String)) {
+    requestResponses = requestResponses + (request -> response)
   }
 
-  def response(request:String) = requestResponses(request)
+  def response(request: String) = requestResponses(request)
 
   def clearRegisteredProcessorResponses {
-    requestResponses.clear
+    requestResponses = Map.empty[String, (String, String)]
   }
 
 }

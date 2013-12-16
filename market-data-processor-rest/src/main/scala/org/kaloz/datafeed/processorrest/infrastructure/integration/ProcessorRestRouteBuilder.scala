@@ -56,13 +56,13 @@ class ProcessorRestRouteBuilder extends RouteBuilder {
 
     interceptSendToEndpoint(processorInQueue) process (jsonProducerProcessor)
 
-    from("restlet:http://0.0.0.0:"+restPort+"/processor/instrument/{provider}/{instrument}?restletMethod=get")
+    from(s"restlet:http://0.0.0.0:${restPort}/processor/instrument/{provider}/{instrument}?restletMethod=get")
       .routeId("getInstrument")
       .log("Provider ${header.provider} - instrumentId ${header.instrument}")
       .transform(method(processorRestConverter, "toInstrumentPriceRequestMessage"))
       .to("direct:processJmsMessage")
 
-    from("restlet:http://0.0.0.0:"+restPort+"/processor/instrument/{provider}?restletMethod=get")
+    from(s"restlet:http://0.0.0.0:${restPort}/processor/instrument/{provider}?restletMethod=get")
       .routeId("getAllInstruments")
       .log("Provider ${header.provider} - All instruments")
       .transform(method(processorRestConverter, "toInstrumentPriceListRequestMessage"))
